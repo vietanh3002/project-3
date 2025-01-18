@@ -8,13 +8,21 @@ import { useSession } from "next-auth/react";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
 
-  if ((session && (session.user as any)?.role !== "admin") || !session) {
-    return <div>Unauthorized</div>;
+  if (!(session as any).user.role) return <div>Loading...</div>;
+
+  if (
+    (session &&
+      session.user &&
+      (session.user as any)?.role &&
+      (session.user as any)?.role !== "admin") ||
+    !session
+  ) {
+    return <div>Not found</div>;
   }
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full">
         <SidebarTrigger />
         {children}
       </main>

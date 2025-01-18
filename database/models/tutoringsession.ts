@@ -17,7 +17,7 @@ export class TutoringSessions extends Model<
   declare startTime: string;
   declare linkMeet: string;
   declare document: string;
-  declare absenceReason: string;
+  declare absenceReason: CreationOptional<string>;
   declare studyStatus: "noStarted" | "completed" | "droppedOut";
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;

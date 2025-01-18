@@ -1,10 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-export default async function Layout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { data: session } = useSession();
+  if (!(session as any)?.user?.role) {
+    return <div>Loading...</div>;
+  }
+  console.log(session);
   return (
     <div className="container mx-auto flex py-12 w-screen">
       <div className="flex flex-col md:flex-row w-full">
@@ -19,24 +28,29 @@ export default async function Layout({
             >
               Thông tin cá nhân
             </Link>
-            <Link
-              href="/profile/become-tutor"
-              className="text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Xin Quyền Làm Gia Sư
-            </Link>
-            <Link
-              href="/profile/manage-courses"
-              className="text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Quản Lý Khóa Học
-            </Link>
-            <Link
-              href="/profile/manage-tutor-courses"
-              className="text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Quản Lý Khóa Gia Sư
-            </Link>
+            {(session as any).user?.role === "tutor" ? (
+              <>
+                <Link
+                  href="/manage-courses"
+                  className="text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Quản Lý Khóa Học
+                </Link>
+                <Link
+                  href="/manage-tutor-courses"
+                  className="text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-105"
+                >
+                  Quản Lý Khóa Gia Sư
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/profile/become-tutor"
+                className="text-blue-600 hover:text-blue-800 transition duration-300 ease-in-out transform hover:scale-105"
+              >
+                Xin Quyền Làm Gia Sư
+              </Link>
+            )}
           </nav>
         </div>
         <div className="flex-grow bg-white shadow-md rounded-lg p-6 ml-0 md:ml-4">

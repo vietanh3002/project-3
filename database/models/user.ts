@@ -15,7 +15,7 @@ export class Users extends Model<
   declare username: string;
   declare email: string;
   declare password: string;
-  declare role: "user" | "admin" | "tutor";
+  declare role: "user" | "admin" | "tutor" | "request-tutor";
   declare provider: "credentials" | "google" | "facebook";
   declare avatar: string;
   declare createdAt: CreationOptional<Date>;
@@ -41,7 +41,7 @@ export class Users extends Model<
           type: DataTypes.STRING,
         },
         role: {
-          type: DataTypes.ENUM("user", "admin", "tutor"),
+          type: DataTypes.ENUM("user", "admin", "tutor", "request-tutor"),
           defaultValue: "user",
           allowNull: false,
         },

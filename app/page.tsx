@@ -34,6 +34,33 @@ const courses = [
   },
 ];
 
+const tutors = [
+  {
+    id: 1,
+    name: "Nguyễn Văn A",
+    category: "Công nghệ thông tin",
+    rating: 4.8,
+    image: "https://via.placeholder.com/400",
+    bio: "Chuyên gia về lập trình React với 5 năm kinh nghiệm.",
+  },
+  {
+    id: 2,
+    name: "Trần Thị B",
+    category: "Ngôn ngữ",
+    rating: 4.7,
+    image: "https://via.placeholder.com/400",
+    bio: "Giảng viên tiếng Anh với hơn 10 năm kinh nghiệm giảng dạy.",
+  },
+  {
+    id: 3,
+    name: "Lê Văn C",
+    category: "Khoa học",
+    rating: 4.6,
+    image: "https://via.placeholder.com/400",
+    bio: "Thạc sĩ Toán học với nhiều thành tích trong nghiên cứu và giảng dạy.",
+  },
+];
+
 export default function Home() {
   return (
     <div className="">
@@ -85,29 +112,9 @@ export default function Home() {
             Gia Sư Nổi Bật
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            <TutorCard tutor={{
-              image:"https://via.placeholder.com/400",
-              name:"Nguyễn Văn A",
-              subject:"Lập trình React",
-              rating:"4.8",
-            }}
-            />
-            <TutorCard
-            tutor={{
-              image:"https://via.placeholder.com/400",
-              name:"Trần Thị B",
-              subject:"Tiếng Anh Giao Tiếp",
-              rating:"4.7",
-            }}
-            />
-            <TutorCard
-            tutor={{
-              image:"https://via.placeholder.com/400",
-              name:"Lê Văn C",
-              subject:"Toán Cao Cấp",
-              rating:"4.6",
-            }}
-            />
+            {tutors.map((tutor) => (
+              <TutorCard key={tutor.id} tutor={tutor} />
+            ))}
           </div>
         </div>
       </section>

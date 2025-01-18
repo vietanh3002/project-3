@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import TutorCard from "../components/tutors/tutor-card";
 
 const Tutors = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -105,30 +106,3 @@ const Tutors = () => {
 };
 
 export default Tutors;
-
-function TutorCard({
-  tutor,
-}: {
-  tutor: {
-    id: number;
-    name: string;
-    category: string;
-    rating: number;
-    image: string;
-    bio: string;
-  };
-}) {
-  return (
-    <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105">
-      <img
-        src={tutor.image}
-        alt={tutor.name}
-        className="w-full h-48 object-cover rounded-lg mb-4"
-      />
-      <h3 className="text-xl font-bold mb-2">{tutor.name}</h3>
-      <p className="text-gray-600 mb-2">{tutor.bio}</p>
-      <p className="text-gray-800 font-bold mb-2">Lĩnh vực: {tutor.category}</p>
-      <p className="text-yellow-500">Đánh giá: {tutor.rating} ⭐</p>
-    </div>
-  );
-}

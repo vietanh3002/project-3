@@ -14,6 +14,9 @@ import { ComboCourses } from "@/database/models/combocourse";
 import { CategoryCourses } from "@/database/models/categorycourse";
 import { CategoryTutorCourses } from "@/database/models/categorytutorcourse";
 import { Rates } from "@/database/models/rate";
+import { RequestTutors } from "@/database/models/request-tutors";
+import { UserCourses } from "@/database/models/usercourse";
+import { UserTutorCourses } from "@/database/models/usertutorcourse";
 
 const dbConfig = env.database;
 
@@ -30,6 +33,7 @@ const sequelize = new Sequelize(
 
 Users.initClass(sequelize);
 Infos.initClass(sequelize);
+RequestTutors.initClass(sequelize);
 Categories.initClass(sequelize);
 Courses.initClass(sequelize);
 Chapters.initClass(sequelize);
@@ -41,15 +45,32 @@ ComboCourses.initClass(sequelize);
 CategoryCourses.initClass(sequelize);
 CategoryTutorCourses.initClass(sequelize);
 Rates.initClass(sequelize);
+UserCourses.initClass(sequelize);
+UserTutorCourses.initClass(sequelize);
 
 Users.hasMany(Infos, { foreignKey: "userId" });
 Infos.belongsTo(Users, { foreignKey: "userId" });
+
+Users.hasOne(RequestTutors, { foreignKey: "userId" });
+RequestTutors.belongsTo(Users, { foreignKey: "userId" });
+
+Users.hasMany(Courses, { foreignKey: "authorId" });
+Courses.belongsTo(Users, { foreignKey: "authorId" });
+
+Users.hasMany(TutorCourses, { foreignKey: "authorId" });
+TutorCourses.belongsTo(Users, { foreignKey: "authorId" });
 
 Categories.hasMany(CategoryCourses, { foreignKey: "categoryId" });
 CategoryCourses.belongsTo(Categories, { foreignKey: "categoryId" });
 
 Categories.hasMany(CategoryTutorCourses, { foreignKey: "categoryId" });
 CategoryTutorCourses.belongsTo(Categories, { foreignKey: "categoryId" });
+
+Courses.hasMany(CategoryCourses, { foreignKey: "categoryId" });
+CategoryCourses.belongsTo(Courses, { foreignKey: "categoryId" });
+
+TutorCourses.hasMany(CategoryTutorCourses, { foreignKey: "courseId" });
+CategoryTutorCourses.belongsTo(TutorCourses, { foreignKey: "courseId" });
 
 Courses.hasMany(Chapters, { foreignKey: "courseId" });
 Chapters.belongsTo(Courses, { foreignKey: "courseId" });
@@ -75,6 +96,18 @@ Rates.belongsTo(Courses, { foreignKey: "courseId" });
 Users.hasMany(Rates, { foreignKey: "userId" });
 Rates.belongsTo(Users, { foreignKey: "userId" });
 
+Users.hasMany(UserCourses, { foreignKey: "userId" });
+UserCourses.belongsTo(Users, { foreignKey: "userId" });
+
+Users.hasMany(UserTutorCourses, { foreignKey: "userId" });
+UserTutorCourses.belongsTo(Users, { foreignKey: "userId" });
+
+Courses.hasMany(UserCourses, { foreignKey: "courseId" });
+UserCourses.belongsTo(Courses, { foreignKey: "courseId" });
+
+TutorCourses.hasMany(UserTutorCourses, { foreignKey: "tutorCourseId" });
+UserTutorCourses.belongsTo(TutorCourses, { foreignKey: "tutorCourseId" });
+
 const connectToDatabase = async () => {
   try {
     await sequelize.authenticate();
@@ -99,6 +132,9 @@ const db = {
   categoryCourses: CategoryCourses,
   categoryTutorCourses: CategoryTutorCourses,
   rates: Rates,
+  requestTutors: RequestTutors,
+  userCourses: UserCourses,
+  userTutorCourses: UserTutorCourses,
   connectToDatabase,
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useSession } from "next-auth/react";
@@ -39,7 +40,7 @@ const Header = () => {
   }, [path]);
 
   return (
-    <div className="flex flex-col md:flex-row h-auto md:h-16 gap-4 md:gap-10 justify-between items-center px-4 md:px-8 border-b-2 bg-white shadow-md sticky top-0 z-0">
+    <div className="flex flex-col md:flex-row h-auto md:h-16 gap-4 md:gap-10 justify-between items-center px-4 md:px-8 border-b-2 bg-white shadow-md sticky top-0 z-[9999]">
       <div className="flex justify-center w-full md:w-auto">
         <Image src={logo.src} width={30} height={30} alt="logo" />
       </div>
@@ -173,6 +174,27 @@ const Header = () => {
                     Thông tin cá nhân
                   </div>
                 </Link>
+                {(session as any)?.user?.role === "admin" && (
+                  <Link href="/admins">
+                    <div className="py-3 px-3 mt-2 bg-[#F1F5F9] text-[18px]">
+                      Quản trị viên
+                    </div>
+                  </Link>
+                )}
+                {(session as any)?.user?.role === "tutor" && (
+                  <>
+                    <Link href="/manage-courses">
+                      <div className="py-3 px-3 mt-2 bg-[#F1F5F9] text-[18px]">
+                        Quản Lý Khóa Học
+                      </div>
+                    </Link>
+                    <Link href="/manage-tutor-courses">
+                      <div className="py-3 px-3 mt-2 bg-[#F1F5F9] text-[18px]">
+                        Quản Lý Khóa Gia Sư
+                      </div>
+                    </Link>
+                  </>
+                )}
                 <SignOut />
               </DropdownMenuContent>
             </DropdownMenu>

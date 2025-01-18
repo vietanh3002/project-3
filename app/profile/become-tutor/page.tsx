@@ -1,20 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 
 function BecomeTutor() {
+  const { data: session } = useSession();
   const [tutorInfo, setTutorInfo] = useState({
-    title: "",
+    proposedCourses: "",
     expertise: "",
     experience: "",
   });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // Xử lý form xin quyền trở thành tutor
-    // fetch('/api/tutor/apply', { method: 'POST', body: JSON.stringify(tutorInfo) });
-    alert("Yêu cầu của bạn đã được gửi.");
+    try {
+      const response = await fetch("/api/request-tutors", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${(session as any)?.token}`,
+        },
+        body: JSON.stringify(tutorInfo),
+      });
+      if (response.ok) {
+        alert("Yêu cầu của bạn đã được gửi.");
+      } else {
+        const error = await response.json();
+        alert(error.meta.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -25,9 +42,9 @@ function BecomeTutor() {
           <label className="block font-bold">Tên Khóa Học Dự Kiến</label>
           <input
             type="text"
-            value={tutorInfo.title}
+            value={tutorInfo.proposedCourses}
             onChange={(e) =>
-              setTutorInfo({ ...tutorInfo, title: e.target.value })
+              setTutorInfo({ ...tutorInfo, proposedCourses: e.target.value })
             }
             className="border rounded-lg p-2 w-full"
             required

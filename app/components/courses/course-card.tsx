@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface CourseCardProps {
   course: {
     id: number;
@@ -12,7 +14,10 @@ interface CourseCardProps {
 
 export default function CourseCard(props: CourseCardProps) {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105">
+    <Link
+      href={`/courses/${props.course.id}`}
+      className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105"
+    >
       <img
         src={props.course.image}
         alt={props.course.title}
@@ -24,6 +29,6 @@ export default function CourseCard(props: CourseCardProps) {
         {props.course.price.toLocaleString()} VND
       </p>
       <p className="text-yellow-500">Đánh giá: {props.course.rating} ⭐</p>
-    </div>
+    </Link>
   );
 }

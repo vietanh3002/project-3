@@ -1,11 +1,10 @@
-import { Bell, Home, ListCollapse, Search, Settings } from "lucide-react";
+import { Home } from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -19,34 +18,13 @@ const items = [
     url: "/admins",
     icon: Home,
   },
-  {
-    title: "Notifications",
-    url: "/admins/notifications",
-    icon: Bell,
-  },
-  {
-    title: "Categories",
-    url: "/admins/categories",
-    icon: ListCollapse,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
 ];
 
 export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarGroup className="pt-20">
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
